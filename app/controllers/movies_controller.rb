@@ -1,3 +1,5 @@
+require_dependency '../../lib/movie_wrapper'
+
 class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
 
@@ -19,6 +21,11 @@ class MoviesController < ApplicationController
         methods: [:available_inventory]
         )
       )
+  end
+
+  def search()
+    results = MovieWrapper.search(params[:query])
+    render status: :ok, json: results
   end
 
   private
