@@ -23,11 +23,6 @@ class MoviesController < ApplicationController
       )
   end
 
-  def search()
-    results = MovieWrapper.search(params[:query])
-    render status: :ok, json: results
-  end
-
   private
 
   def require_movie
