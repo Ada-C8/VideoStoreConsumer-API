@@ -22,9 +22,11 @@ class MoviesController < ApplicationController
   end
 
   def create
-    # render json: movie_params // not sure why we need this line... and could be buggy... 
+    # render json: movie_params // not sure why we need this line... and could be buggy...
     movie = Movie.new(movie_params)
     movie.save!
+
+    render status: :ok, json: movie
   end
 
   private
