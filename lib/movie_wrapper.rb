@@ -33,11 +33,7 @@ class MovieWrapper
   end
 
   def self.construct_image_url(img_name)
-    if img_name.include?(BASE_IMG_URL)
-      return img_name
-    else
-      return BASE_IMG_URL + DEFAULT_IMG_SIZE + img_name
-    end
+    return BASE_IMG_URL + DEFAULT_IMG_SIZE + img_name
   end
 
 end
