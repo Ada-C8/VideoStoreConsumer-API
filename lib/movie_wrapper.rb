@@ -7,7 +7,11 @@ class MovieWrapper
   DEFAULT_IMG_URL = "http://lorempixel.com/185/278/"
 
   def self.search(query)
+    puts "this is the key #{KEY}"
+    puts "this is the query #{query}"
+    puts
     url = BASE_URL + "search/movie?api_key=" + KEY + "&query=" + query
+
     # puts url
     response =  HTTParty.get(url)
     if response["total_results"] == 0

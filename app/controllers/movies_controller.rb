@@ -11,6 +11,8 @@ class MoviesController < ApplicationController
     render status: :ok, json: data
   end
 
+
+
   def show
     render(
       status: :ok,
@@ -24,6 +26,9 @@ class MoviesController < ApplicationController
   private
 
   def require_movie
+    puts "************"
+    puts params
+    puts Movie.find_by(title: params[:title])
     @movie = Movie.find_by(title: params[:title])
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
