@@ -24,7 +24,6 @@ class MovieWrapper
   private
 
   def self.construct_movie(api_result)
-    puts "api_result['poster_path']: #{api_result["poster_path"]}"
     Movie.new(
       title: api_result["title"],
       overview: api_result["overview"],
@@ -34,11 +33,6 @@ class MovieWrapper
   end
 
   def self.construct_image_url(img_name)
-    puts "INSIDE self.construct_image_url"
-    puts "img_name: #{img_name}"
-    puts "BASE_IMG_URL: #{BASE_IMG_URL}"
-    puts "DEFAULT_IMG_SIZE: #{DEFAULT_IMG_SIZE}"
-    puts "---------------------------------------"
     if img_name.include?(BASE_IMG_URL)
       return img_name
     else
