@@ -21,6 +21,21 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    data = MovieWrapper.search(params[:title])
+    parsed_date = Date.parse(params[:release_date])
+    data.each do |movie|
+      if movie[:title] == params[:title] && movie[:release_date] == parsed_date
+        movie['inventory'] = 0
+        if movie.save
+          render json: movie.as_json(), status: :ok #only: [:title, :overview, :release_date, :inventory, :image_url]
+        else
+          render json: { errors: movie.errors.messages }, status: :bad_request
+        end
+      end
+    end
+  end
+
   private
 
   def require_movie
@@ -28,5 +43,9 @@ class MoviesController < ApplicationController
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
+  end
+
+  def movie_params
+    params.permit(:title, :release_date)
   end
 end
