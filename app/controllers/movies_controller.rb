@@ -11,15 +11,21 @@ class MoviesController < ApplicationController
     render status: :ok, json: data
   end
 
-  def create(api_result)
-    # construct_movie(api_result)
-    Movie.new(
-      title: api_result["title"],
-      overview: api_result["overview"],
-      release_date: api_result["release_date"],
-      image_url: (api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : ''),
-      external_id: api_result["id"])
-    end
+  # def create(api_result)
+  #   # construct_movie(api_result)
+  #   Movie.new(
+  #     title: api_result["title"],
+  #     overview: api_result["overview"],
+  #     release_date: api_result["release_date"],
+  #     image_url: (api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : ''),
+  #     external_id: api_result["id"])
+  #   end
+  # end
+  def create
+    movie = Movie.new(movie_params)
+    movie.save!
+
+    render status: :ok, json: movie
   end
 
   def show
@@ -39,5 +45,9 @@ class MoviesController < ApplicationController
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
+  end
+
+  def movie_params
+    params.require(:movie).permit(:title, :overview, :image_url)
   end
 end
