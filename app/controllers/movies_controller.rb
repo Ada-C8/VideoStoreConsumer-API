@@ -17,21 +17,12 @@ class MoviesController < ApplicationController
 
     # if the movie exists send back
     if movie
-      data = false;
-      render(
-        status: :bad_request,
-        json: data,
-      )
+      render status: :not_found, json: { errors: { title: ["The movie #{params["title"]} has already been added to our Library."] } }
     else
-      # make a call to the api for movie with external_id?
-      # can we just pass in params?
-      # create a hash with title, overview, release_date, poster_path, external_id
       new_movie = MovieWrapper.construct_movie(params)
       new_movie.save
-
+      render status: :ok, json: data
     end
-
-    render status: :ok, json: data
   end
 
   def show
