@@ -15,7 +15,7 @@ class Movie < ApplicationRecord
     elsif external_id
       MovieWrapper.construct_image_url(orig_value)
     else
-      orig_value
+      MovieWrapper.construct_image_url(orig_value)
     end
   end
 end
