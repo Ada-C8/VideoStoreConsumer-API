@@ -7,9 +7,6 @@ class MovieWrapper
   DEFAULT_IMG_URL = "http://lorempixel.com/185/278/"
 
   def self.search(query)
-    puts "this is the key #{KEY}"
-    puts "this is the query #{query}"
-    puts
     url = BASE_URL + "search/movie?api_key=" + KEY + "&query=" + query
 
     # puts url
@@ -31,7 +28,8 @@ class MovieWrapper
       title: api_result["title"],
       overview: api_result["overview"],
       release_date: api_result["release_date"],
-      image_url: api_result["poster_path"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
+      # image_url: api_result["poster_path"],
+      image_url: (api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
       external_id: api_result["id"])
   end
 
