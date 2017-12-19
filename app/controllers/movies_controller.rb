@@ -11,12 +11,34 @@ class MoviesController < ApplicationController
     render status: :ok, json: data
   end
 
+  def create
+    # check movies to see if it exists already?
+    @movie = Movie.find_by(title: params[:title])
+
+    # if the movie exists send back
+    if @movie
+      data = false;
+      render(
+        status: :bad_request,
+        json: data,
+      )
+    else
+      # make a call to the api for movie with external_id?
+      # can we just pass in params?
+      # create a hash with title, overview, release_date, poster_path, external_id
+      MovieWrapper.construct_movie(params)
+
+    end
+
+    render status: :ok, json: data
+  end
+
   def show
     render(
       status: :ok,
       json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
+        # methods: [:available_inventory]
         )
       )
   end
