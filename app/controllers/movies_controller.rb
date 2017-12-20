@@ -21,6 +21,17 @@ class MoviesController < ApplicationController
       )
   end
 
+  def new
+    @movie = Movie.new
+  end
+
+  def create
+    @movie = Movie.new(title: params[:movie][:title], overview: params[:movie][:overview], release_date: params[:movie][:release_date], inventory: params[:movie][:inventory], image_url: params[:movie][:image_url])
+
+    if @movie.save
+    end
+  end
+
   private
 
   def require_movie
