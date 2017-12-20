@@ -21,6 +21,10 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    render json: { ready_for_lunch: "yassss" }
+  end # create
+
   private
 
   def require_movie
@@ -29,4 +33,8 @@ class MoviesController < ApplicationController
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
   end
+# defines what params we will accept from the user when they make a post request to our api
+  def movie_params
+    params.require(:movie).permit(:external_id)
+  end # movie_params
 end
