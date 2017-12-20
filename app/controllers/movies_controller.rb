@@ -36,6 +36,10 @@ class MoviesController < ApplicationController
     end
   end
 
+  # def update
+  #   @movie.update_attributes(:available_inventory => params[:inventory])
+  # end
+
   private
 
   def require_movie
