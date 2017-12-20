@@ -24,9 +24,9 @@ class MoviesController < ApplicationController
   def create
     if params[:title]
       @movie = MovieWrapper.search(params[:title])
-      puts @movie
+
         if @movie[0].save
-          render status: :success, json: { errors: { title: ["Movie with title #{params["title"]} saved!"] } }
+          render status: :ok, json: { errors: { title: ["Movie with title #{params["title"]} saved!"] } }
         else
           render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
         end
