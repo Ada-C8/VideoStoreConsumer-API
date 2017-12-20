@@ -71,3 +71,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'httparty'
 
 gem "active_model_serializers"
+
+# fixes the security issue that doesnt secure anything and makes Dan want to basth his head against his keyboard.
+gem 'rack-cors', :require => 'rack/cors'
