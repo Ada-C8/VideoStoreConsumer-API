@@ -23,6 +23,19 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    movie_data = MovieWrapper.getMovie(params[:id])
+    puts movie_data
+    movie = Movie.new do |m|
+      m.title = movie_data["title"]
+      m.overview = movie_data["overview"]
+      m.release_date = movie_data["release_date"]
+      m.image_url = movie_data["poster_path"]
+    end
+    puts movie
+    movie.save
+  end
+
   private
 
   def require_movie
