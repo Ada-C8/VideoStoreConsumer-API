@@ -4,6 +4,9 @@ class Movie < ApplicationRecord
   has_many :rentals
   has_many :customers, through: :rentals
 
+  validates :overview, uniqueness: { scope: :title,
+    message: "Movie already exists in our rental Library" }
+
   def available_inventory
     self.inventory - Rental.where(movie: self, returned: false).length
   end
