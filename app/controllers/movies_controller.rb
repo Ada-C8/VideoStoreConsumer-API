@@ -13,12 +13,26 @@ class MoviesController < ApplicationController
 
   def show
     render(
-      status: :ok,
-      json: @movie.as_json(
-        only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
-        )
-      )
+    status: :ok,
+    json: @movie.as_json(
+    only: [:title, :overview, :release_date, :inventory],
+    methods: [:available_inventory]
+    )
+    )
+  end
+
+  def create
+    if params[:title]
+      @movie = MovieWrapper.search(params[:title])
+      puts @movie
+        if @movie[0].save
+          render status: :success, json: { errors: { title: ["Movie with title #{params["title"]} saved!"] } }
+        else
+          render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
+        end
+    else
+      render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
+    end
   end
 
   private
