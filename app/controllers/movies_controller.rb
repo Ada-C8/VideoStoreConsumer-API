@@ -26,7 +26,17 @@ class MoviesController < ApplicationController
       # movie_params['external_id']
     movie = MovieWrapper.find(movie_params['external_id'])
 
-    render json: { ready_for_lunch: movie }
+    # book = Book.new(title: params[:book][:title], author: params[:book][:author])
+    #    book.save
+    #    redirect_to('/books')
+
+    if movie.save
+      render status: :ok, json: movie
+    else
+      # TODO: handle errors in a better way .... maybe make validations for Movie? 
+      render json: {}
+    end
+    # render json: { ready_for_lunch: movie }
   end # create
 
   private
