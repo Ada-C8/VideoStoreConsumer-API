@@ -22,7 +22,10 @@ class MoviesController < ApplicationController
   end
 
   def create
-    render json: { ready_for_lunch: "yassss" }
+    # To access the external_id:
+      # movie_params['external_id']
+    movieData = MovieWrapper.find(movie_params['external_id'])
+    render json: { ready_for_lunch: movie_params }
   end # create
 
   private

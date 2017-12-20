@@ -20,12 +20,13 @@ module VideoStoreAPIRails
       'Access-Control-Request-Method' => %w{GET POST OPTIONS}.join(",")
     }
 
-    # add this in so I can make a post request 
+    # add this in so I can make a post request
     config.middleware.insert_before 0, Rack::Cors do
      allow do
        origins '*'
-       resource '*', :headers => :any, :methods => [:get, :post, :options]
+       resource '*', :headers => :any, :methods => [:get, :post, :options, :patch]
      end
    end
+
   end
 end
