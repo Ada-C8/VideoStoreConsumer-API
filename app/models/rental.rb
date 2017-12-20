@@ -5,8 +5,10 @@ class Rental < ApplicationRecord
   # validates :movie, uniqueness: { scope: :customer }
   validates :due_date, presence: true
   validate :due_date_in_future, on: :create
+  validate :available, on: :create
 
   after_initialize :set_checkout_date
+
 
   def self.first_outstanding(movie, customer)
     self.where(movie: movie, customer: customer, returned: false).order(:due_date).first
@@ -17,6 +19,12 @@ class Rental < ApplicationRecord
   end
 
 private
+  def available
+    if movie.available_inventory <= 0
+      errors.add(:inventory, "Must be available")
+    end
+  end
+
   def due_date_in_future
     return unless self.due_date
     unless due_date > Date.today
