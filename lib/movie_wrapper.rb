@@ -1,4 +1,4 @@
-require 'pry-rials'
+
 
 class MovieWrapper
   BASE_URL = "https://api.themoviedb.org/3/"
@@ -27,7 +27,7 @@ class MovieWrapper
     url = BASE_URL + 'movie/' + ex_id + '?api_key=' + KEY
 
     response = HTTParty.post(url)
-    binding.pry
+
   end # self.find
 
   private
