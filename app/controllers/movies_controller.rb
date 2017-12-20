@@ -23,12 +23,15 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.find_by(title: params[:title])
+
     if @movie
       @movie.inventory += 1
+      @movie.save
     else
       if params[:title]
         @movie = MovieWrapper.search(params[:title])
-        puts @movie
+        @movie[0].inventory = 1
+
         if @movie[0].save
           render status: :ok, json: { errors: { title: ["Movie with title #{params["title"]} saved!"] } }
         else
