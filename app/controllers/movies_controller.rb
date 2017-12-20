@@ -21,8 +21,10 @@ class MoviesController < ApplicationController
     else
       new_movie = MovieWrapper.construct_movie(params)
       new_movie.save
-      render status: :ok, json: data
+      render status: :ok, json: new_movie
     end
+
+
   end
 
   def show
