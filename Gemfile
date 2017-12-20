@@ -59,6 +59,8 @@ group :development do
   gem 'pry-rails'
 
   gem 'dotenv-rails'
+
+  gem 'rack-cors', :require => 'rack/cors'
 end
 
 group :test do
