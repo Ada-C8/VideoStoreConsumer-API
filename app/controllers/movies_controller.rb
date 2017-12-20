@@ -22,16 +22,21 @@ class MoviesController < ApplicationController
   end
 
   def create
-    if params[:title]
-      @movie = MovieWrapper.search(params[:title])
-      puts @movie
+    @movie = Movie.find_by(title: params[:title])
+    if @movie
+      @movie.inventory += 1
+    else
+      if params[:title]
+        @movie = MovieWrapper.search(params[:title])
+        puts @movie
         if @movie[0].save
-          render status: :success, json: { errors: { title: ["Movie with title #{params["title"]} saved!"] } }
+          render status: :ok, json: { errors: { title: ["Movie with title #{params["title"]} saved!"] } }
         else
           render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
         end
-    else
-      render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
+      else
+        render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
+      end
     end
   end
 
