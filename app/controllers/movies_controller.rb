@@ -13,12 +13,11 @@ class MoviesController < ApplicationController
 
   def create
     # puts movies
-    # movies.find_by()
-    if movie_params['external_id'] != 'null'
-     puts movie_params
+    # if movie_params['external_id'] != 'null'
+     # puts movie_params
       movie = Movie.new(movie_params)
       movie.save
-    end
+    # end
     render status: :ok, json: movie
   end
 
