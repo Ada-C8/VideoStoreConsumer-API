@@ -42,6 +42,41 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  describe 'create' do
+    let(:movie_data ) {
+      {
+      "title": "The Exorcist",
+      "overview": "12-year-old Regan MacNeil begins to adapt an explicit new personality as strange events befall the local area of Georgetown. Her mother becomes torn between science and superstition in a desperate bid to save her daughter, and ultimately turns to her last hope: Father Damien Karras, a troubled priest who is struggling with his own faith.",
+      "release_date": "1973-12-26",
+      "inventory": 7
+      }
+  }
+    # .must_change and .wont_change is not supported with this rails version
+    it "creates a movie" do
+      proc {
+        post movies_path, params: movie_data
+      }.must_change 'Movie.count', 1
+
+      must_respond_with :success
+    end
+    it "won't save a movie in database with invalid data" do
+      invalid_movie_data = {
+      "overview": "12-year-old Regan MacNeil begins to adapt an explicit new personality as strange events befall the local area of Georgetown. Her mother becomes torn between science and superstition in a desperate bid to save her daughter, and ultimately turns to her last hope: Father Damien Karras, a troubled priest who is struggling with his own faith.",
+      "release_date": "1973-12-26",
+      "inventory": 7
+      }
+
+      proc {
+        post movies_path, params: invalid_movie_data
+      }.wont_change 'Movie.count'
+
+      must_respond_with :bad_request
+
+      body = JSON.parse(response.body)
+      body["errors"].must_include "title"
+    end
+  end
+
   describe "show" do
     it "Returns a JSON object" do
       get movie_url(title: movies(:one).title)
