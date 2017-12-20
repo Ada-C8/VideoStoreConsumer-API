@@ -15,7 +15,7 @@ class MoviesController < ApplicationController
     render(
     status: :ok,
     json: @movie.as_json(
-    only: [:title, :overview, :release_date, :inventory],
+    only: [:title, :overview, :release_date, :vote_average, :inventory],
     methods: [:available_inventory]
     )
     )
@@ -31,6 +31,9 @@ class MoviesController < ApplicationController
       if params[:title]
         @movie = MovieWrapper.search(params[:title])
         @movie[0].inventory = 1
+
+        rating = ['G', 'PG', 'PG-13', 'R', 'NC-17']
+        @movie[0].rating = rating.sample
 
         if @movie[0].save
           render status: :ok, json: { errors: { title: ["Movie with title #{params["title"]} saved!"] } }
