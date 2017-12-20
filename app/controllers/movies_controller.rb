@@ -25,15 +25,19 @@ class MoviesController < ApplicationController
 
   def create
     movie_data = MovieWrapper.getMovie(params[:id])
-    puts movie_data
-    movie = Movie.new do |m|
-      m.title = movie_data["title"]
-      m.overview = movie_data["overview"]
-      m.release_date = movie_data["release_date"]
-      m.image_url = movie_data["poster_path"]
+
+    if Movie.where(overview: movie_data["overview"]).length > 0
+      # add an error message for the user
+    else
+      movie = Movie.new do |m|
+        m.title = movie_data["title"]
+        m.overview = movie_data["overview"]
+        m.release_date = movie_data["release_date"]
+        m.image_url = movie_data["poster_path"]
+      end
+
+      movie.save
     end
-    puts movie
-    movie.save
   end
 
   private
