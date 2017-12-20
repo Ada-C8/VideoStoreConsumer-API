@@ -37,6 +37,8 @@ class MoviesController < ApplicationController
       end
 
       movie.save
+
+      render status: :ok, json: movie
     end
   end
 
