@@ -26,18 +26,9 @@ class MoviesController < ApplicationController
   def create
     movie_data = MovieWrapper.getMovie(params[:id])
 
-    if Movie.where(overview: movie_data["overview"]).length > 0
-      # add an error message for the user
-    else
-      movie = Movie.new do |m|
-        m.title = movie_data["title"]
-        m.overview = movie_data["overview"]
-        m.release_date = movie_data["release_date"]
-        m.image_url = movie_data["poster_path"]
-      end
-
+    if Movie.where(overview: movie_data["overview"]).length == 0
+      movie = Movie.new(movie_params)
       movie.save
-
       render status: :ok, json: movie
     end
   end
@@ -49,5 +40,9 @@ class MoviesController < ApplicationController
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
+  end
+
+  def movie_params
+    return params.require(:movie).permit(:title, :overview, :release_date, :image_url)
   end
 end
