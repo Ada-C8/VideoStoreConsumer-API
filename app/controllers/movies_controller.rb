@@ -5,8 +5,7 @@ class MoviesController < ApplicationController
     if params[:query]
       query = params[:query]
       # data = MovieWrapper.search(params[:query])
-      data = Movie.all.select{ |movie| p movie; movie.title.include?query }
-      p data
+      data = Movie.all.select{ |movie| movie.title.include?query }
     else
       data = Movie.all
     end
@@ -31,9 +30,12 @@ class MoviesController < ApplicationController
   def create
     movie_data = movie_params(params)
     movie = Movie.new(movie_data)
-    movie.save
+    if movie.save
+      render status: :ok, json: movie.as_json
+    else
+      render status: :bad_request, json: { errors: movie.errors.messages.as_json }
+    end
 
-    render status: :ok, json: {title: movie.title}
   end
 
   private
