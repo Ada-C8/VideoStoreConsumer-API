@@ -121,6 +121,10 @@ GEM
       pry (>= 0.10.4)
     puma (3.11.0)
     rack (2.0.3)
+<<<<<<< HEAD
+=======
+    rack-cors (1.0.2)
+>>>>>>> b83233a73e8b08a7f892b672f9bfc1ea24bce0d2
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.6)
@@ -213,6 +217,7 @@ DEPENDENCIES
   minitest-spec-rails
   pry-rails
   puma (~> 3.0)
+  rack-cors
   rails (~> 5.0.1)
   sass-rails (~> 5.0)
   spring
@@ -225,4 +230,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.16.0
+   1.16.0.pre.3

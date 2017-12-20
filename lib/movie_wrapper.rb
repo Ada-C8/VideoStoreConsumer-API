@@ -1,3 +1,5 @@
+
+
 class MovieWrapper
   BASE_URL = "https://api.themoviedb.org/3/"
   KEY = ENV["MOVIEDB_KEY"]
@@ -19,6 +21,20 @@ class MovieWrapper
       return movies
     end
   end
+
+  def self.find(ex_id)
+    # create the url to get the details for a single movie (based on the external_id passed to the movie api)
+    url = BASE_URL + 'movie/' + ex_id + '?api_key=' + KEY
+
+    response = HTTParty.get(url)
+    if response["status_code"] == 34
+      # TODO: is there a better way to do this?
+      return {}
+    else
+      movie = self.construct_movie(response)
+      return movie
+    end
+  end # self.find
 
   private
 

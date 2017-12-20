@@ -21,6 +21,24 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    # To access the external_id:
+      # movie_params['external_id']
+    movie = MovieWrapper.find(movie_params['external_id'])
+
+    # book = Book.new(title: params[:book][:title], author: params[:book][:author])
+    #    book.save
+    #    redirect_to('/books')
+
+    if movie.save
+      render status: :ok, json: movie
+    else
+      # TODO: handle errors in a better way .... maybe make validations for Movie? 
+      render json: {}
+    end
+    # render json: { ready_for_lunch: movie }
+  end # create
+
   private
 
   def require_movie
@@ -29,4 +47,8 @@ class MoviesController < ApplicationController
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
   end
+# defines what params we will accept from the user when they make a post request to our api
+  def movie_params
+    params.require(:movie).permit(:external_id)
+  end # movie_params
 end
