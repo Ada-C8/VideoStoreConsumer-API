@@ -3,7 +3,10 @@ class MoviesController < ApplicationController
 
   def index
     if params[:query]
-      data = MovieWrapper.search(params[:query])
+      query = params[:query]
+      # data = MovieWrapper.search(params[:query])
+      data = Movie.all.select{ |movie| p movie; movie.title.include?query }
+      p data
     else
       data = Movie.all
     end
