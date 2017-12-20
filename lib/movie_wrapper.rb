@@ -20,6 +20,21 @@ class MovieWrapper
     end
   end
 
+  def self.top10()
+    url = BASE_URL + "discover/movie?api_key=" + KEY
+    response =  HTTParty.get(url)
+
+    if response["total_results"] == 0
+      return []
+    else
+      movies = response["results"].map do |result|
+        self.construct_movie(result)
+      end
+      # return movies
+      return movies.sample
+    end
+  end
+
   private
 
   def self.construct_movie(api_result)

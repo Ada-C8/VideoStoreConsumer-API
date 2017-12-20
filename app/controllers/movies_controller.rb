@@ -11,6 +11,11 @@ class MoviesController < ApplicationController
     render status: :ok, json: data
   end
 
+  def top
+    data = MovieWrapper.top10()
+    render status: :ok, json: data
+  end
+
   def show
     render(
       status: :ok,
