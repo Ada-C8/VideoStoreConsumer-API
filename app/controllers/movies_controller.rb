@@ -3,12 +3,18 @@ class MoviesController < ApplicationController
 
   def index
     if params[:query]
-      data = MovieWrapper.search(params[:query])
+      query = params[:query]
+      # data = MovieWrapper.search(params[:query])
+      data = Movie.all.select{ |movie| movie.title.include?query }
     else
       data = Movie.all
     end
 
     render status: :ok, json: data
+  end
+
+  def ok
+    render status: :ok
   end
 
   def show
@@ -21,6 +27,17 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    movie_data = movie_params(params)
+    movie = Movie.new(movie_data)
+    if movie.save
+      render status: :ok, json: movie.as_json
+    else
+      render status: :bad_request, json: { errors: movie.errors.messages.as_json }
+    end
+
+  end
+
   private
 
   def require_movie
@@ -28,5 +45,9 @@ class MoviesController < ApplicationController
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
+  end
+
+  def movie_params(params)
+    return params.permit(:title, :overview, :release_date, :inventory, :image_url)
   end
 end
