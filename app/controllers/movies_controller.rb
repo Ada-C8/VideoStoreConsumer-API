@@ -1,3 +1,5 @@
+require_dependency '../../lib/movie_wrapper'
+
 class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
 
@@ -21,6 +23,16 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    movie_data = MovieWrapper.getMovie(params[:id])
+
+    if Movie.where(overview: movie_data["overview"]).length == 0
+      movie = Movie.new(movie_params)
+      movie.save
+      render status: :ok, json: movie
+    end
+  end
+
   private
 
   def require_movie
@@ -28,5 +40,9 @@ class MoviesController < ApplicationController
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
+  end
+
+  def movie_params
+    return params.require(:movie).permit(:title, :overview, :release_date, :image_url)
   end
 end

@@ -20,6 +20,12 @@ class MovieWrapper
     end
   end
 
+  def self.getMovie(external_id)
+    url = BASE_URL + "movie/" + external_id.to_s + "?api_key=" + KEY
+    response = HTTParty.get(url)
+    return response
+  end
+
   private
 
   def self.construct_movie(api_result)
