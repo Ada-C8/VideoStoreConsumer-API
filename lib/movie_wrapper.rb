@@ -14,7 +14,6 @@ class MovieWrapper
       return []
     else
       movies = response["results"].map do |result|
-        puts "\nRESULT POOP : #{result}"
         self.construct_movie(result)
       end
       return movies
