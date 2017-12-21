@@ -6,5 +6,7 @@ end
 
 JSON.parse(File.read('db/seeds/movies.json')).each do |movie_data|
   movies = MovieWrapper.search(movie_data["title"])
+  puts movie_data
+  puts movies
   movies.first.save unless movies.empty?
 end

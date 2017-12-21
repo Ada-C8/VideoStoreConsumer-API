@@ -1,6 +1,8 @@
 class MovieWrapper
   BASE_URL = "https://api.themoviedb.org/3/"
-  KEY = ENV["MOVIEDB_KEY"]
+  KEY = ENV['MOVIEDB_KEY']
+
+
 
   BASE_IMG_URL = "https://image.tmdb.org/t/p/"
   DEFAULT_IMG_SIZE = "w185"
@@ -13,9 +15,11 @@ class MovieWrapper
     if response["total_results"] == 0
       return []
     else
-      movies = response["results"].map do |result|
-        self.construct_movie(result)
-      end
+      unless response["results"].nil?
+        movies = response["results"].map do |result|
+          self.construct_movie(result)
+        end
+      end 
       return movies
     end
   end
